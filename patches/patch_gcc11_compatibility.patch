@@ -1,0 +1,15 @@
+diff --git a/src/E57XmlParser.cpp b/src/E57XmlParser.cpp
+index 8963a1d..5cd77df 100644
+--- a/src/E57XmlParser.cpp
++++ b/src/E57XmlParser.cpp
+@@ -42,6 +42,10 @@
+ #include "StringNodeImpl.h"
+ #include "VectorNodeImpl.h"
+ 
++#if __GNUC__ >= 11
++   #include <limits>
++#endif
++
+ using namespace e57;
+ using namespace XERCES_CPP_NAMESPACE;
+ 

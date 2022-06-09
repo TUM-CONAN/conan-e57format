@@ -7,7 +7,7 @@ class e57FormatConan(ConanFile):
 
     name = "e57format"
     _version = "2.2.0"
-    revision = ""
+    revision = "-r1"
     version = _version+revision
 
     license = "Apache-2.0"
@@ -93,13 +93,10 @@ class e57FormatConan(ConanFile):
         return aliases
 
     def _patch_sources(self):
-        for patch in []: #[{"base_path": "source_subfolder","patch_file":"patches/2.0.0-fix-cpptoml-cmake.patch"},]:
+        for patch in [{"base_path": self._source_subfolder,
+                       "patch_file":"patches/patch_gcc11_compatibility.patch", 
+                       "strip":0},]:
             tools.patch(**patch)
-
-        # tools.replace_in_file(os.path.join(self._source_subfolder, "CMakeLists.txt"),
-        #     "install(FILES ${CMAKE_CURRENT_BINARY_DIR}/uvgrtp.pc DESTINATION ${PKG_CONFIG_PATH}/)",
-        #     "#install(FILES ${CMAKE_CURRENT_BINARY_DIR}/uvgrtp.pc DESTINATION ${PKG_CONFIG_PATH}/)"
-        #     )
 
     def configure(self):
         if self.settings.compiler == 'Visual Studio':
@@ -146,7 +143,7 @@ class e57FormatConan(ConanFile):
         return self._cmake
 
     def source(self):
-        tools.get("https://github.com/asmaloney/libE57Format/archive/refs/tags/v%s.tar.gz" % self.version, strip_root=True,
+        tools.get("https://github.com/asmaloney/libE57Format/archive/refs/tags/v%s.tar.gz" % self._version, strip_root=True,
                   destination=self._source_subfolder)
 
     def build(self):
